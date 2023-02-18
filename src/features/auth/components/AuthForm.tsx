@@ -13,7 +13,7 @@ export default function AuthForm() {
   };
 
   return (
-    <Box sx={{ padding: "20px 40px", minWidth: "400px" }}>
+    <Box sx={{ padding: "20px 40px", width: "450px" }}>
       <Tabs
         sx={{
           width: "100%",
