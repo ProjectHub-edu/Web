@@ -1,0 +1,12 @@
+@use "../utils/variables";
+
+footer {
+    background-color: variables.$primary;
+    position: fixed;
+    // background-color: gray;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em;
+    // text-align: center;
+}

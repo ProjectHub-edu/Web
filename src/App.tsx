@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import Project from './pages/Project'
 import './index.scss'
+import CreateProject from './pages/CreateProject'
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
 
         {/* Project Page */}
         <Route path='/projects/:projectId' element={<Project />} />
+
+        {/* Project Page */}
+        <Route path='/create-project' element={<CreateProject />} />
 
         {/* Profile Page */}
         <Route path='/profile/:userId' element={<Profile />} />
