@@ -1,8 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import { toast, ToastContainer } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
+import { AuthContext } from "../context/AuthContext";
+import { useContext, useState } from "react";
+import { User } from "../../../types/User";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ILoginFormInput {
   email: string;
@@ -10,6 +14,7 @@ interface ILoginFormInput {
 }
 
 function LoginForm() {
+  const { setUser } = useContext(AuthContext);
   const {
     register,
     formState: { errors },
@@ -21,8 +26,46 @@ function LoginForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
+    const userPromise = new Promise<User>((resolve, reject) => {
+      setTimeout(() => {
+        // resolve({
+        //   id: 1,
+        //   username: "John Doe",
+        //   email: data.email,
+        //   avatar: "https://i.pravatar.cc/150?img=1",
+        //   description:
+        //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+        //   projects: [],
+        // });
+        reject(new Error());
+      }, 2000);
+    });
+
+    toast
+      .promise(
+        userPromise,
+        {
+          pending: "Logging in...",
+          success: "Logged in successfully",
+          error: "Wrong credentials",
+        },
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      )
+      .then((user) => {
+        setTimeout(() => {
+          setUser(user);
+        }, 3000);
+      });
   };
 
   return (
@@ -75,6 +118,7 @@ function LoginForm() {
         </Button>
         {/* TODO: Google Auth */}
       </Box>
+      <ToastContainer />
     </form>
   );
 }

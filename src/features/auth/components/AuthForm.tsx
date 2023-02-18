@@ -1,12 +1,20 @@
 import { Tab, Tabs, TabList } from "@mui/joy";
 import Divider from "@mui/material/Divider";
 import { Box } from "@mui/system";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-export default function AuthForm() {
+export default function AuthForm({ closeModal }: { closeModal: () => void }) {
+  const { user } = useContext(AuthContext);
   const [formType, setFormType] = useState<"login" | "register">("login");
+
+  useEffect(() => {
+    if (user) {
+      closeModal();
+    }
+  }, [user, closeModal]);
 
   const toggleFormType = () => {
     setFormType(formType === "login" ? "register" : "login");

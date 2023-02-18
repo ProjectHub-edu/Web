@@ -21,7 +21,7 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider value={{user, setUser}}>
+    <AuthContext.Provider value={{ user, setUser }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -33,7 +33,7 @@ function App() {
       {isOpen &&
         createPortal(
           <Dialog open={isOpen} onClose={closeModal}>
-            <AuthForm />
+            <AuthForm closeModal={closeModal} />
           </Dialog>,
           document.body
         )}
