@@ -1,0 +1,27 @@
+@use "../utils/variables";
+
+@import url("https://fonts.googleapis.com/css?family=Inter:400,700");
+
+nav {
+    background-color: variables.$primary;
+    color: white;
+    display: flex;
+    font-family: 'Inter';
+    font-size: 20px;
+    justify-content: space-between;
+    padding: 0 4em;
+    // align-items: center;
+
+
+    ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-inline-start: 0;
+        gap: 1em
+    }
+
+    li {
+        list-style: none;
+    }
+}

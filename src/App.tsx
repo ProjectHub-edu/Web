@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import Project from './pages/Project'
+import './index.scss'
 
 function App() {
   return (
