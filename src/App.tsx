@@ -1,32 +1,30 @@
-import { useState } from 'react'
-import { Route, Routes } from 'react-router'
-import Footer from './layout/Footer'
-import Navbar from './layout/Navbar'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import Profile from './pages/Profile'
-import Project from './pages/Project'
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import { Route, Routes } from "react-router";
+import AuthForm from "./features/auth/components/AuthForm/AuthForm";
+import Footer from "./layout/Footer";
+import Navbar from "./layout/Navbar";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import Project from "./pages/Project";
 
 function App() {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <>
-      <Navbar />
-      <Routes>
-        {/* Home Page */}
-        <Route path='/' element={<Home />} />
-
-        {/* Project Page */}
-        <Route path='/projects/:projectId' element={<Project />} />
-
-        {/* Profile Page */}
-        <Route path='/profile/:userId' element={<Profile />} />
-
-        {/* Not Found Page */}
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-      <Footer />
+      {/* <Navbar /> */}
+      {/* <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/projects/:projectId" element={<Project />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes> */}
+      {/* <Footer /> */}
+      {isOpen && createPortal(<AuthForm />, document.body)}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
