@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Route, Routes } from "react-router";
-import AuthForm from "./features/auth/components/AuthForm/AuthForm";
+import AuthForm from "./features/auth/components/AuthForm";
+import { Dialog } from "@mui/material";
 import Footer from "./layout/Footer";
 import Navbar from "./layout/Navbar";
 import Home from "./pages/Home";
@@ -11,6 +12,10 @@ import Project from "./pages/Project";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
+
+  const closeModal = () => {
+    setIsOpen(false);
+  }
 
   return (
     <>
@@ -22,7 +27,13 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes> */}
       {/* <Footer /> */}
-      {isOpen && createPortal(<AuthForm />, document.body)}
+      {isOpen &&
+        createPortal(
+          <Dialog open={isOpen} onClose={closeModal}>
+            <AuthForm />
+          </Dialog>,
+          document.body
+        )}
     </>
   );
 }

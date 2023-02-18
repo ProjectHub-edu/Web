@@ -1,1 +1,1 @@
-export { default as AuthForm } from "./components/AuthForm/AuthForm";
+export { default as AuthForm } from "./components/AuthForm";
