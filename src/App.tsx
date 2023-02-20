@@ -9,19 +9,17 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Project from "./pages/Project";
-import { AuthContext } from "./features/auth/context/AuthContext";
-import { User } from "./types/User";
+import { AuthContext, AuthProvider } from "./features/auth/context/AuthContext";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
-  const [user, setUser] = useState< User | null>(null);
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -37,7 +35,7 @@ function App() {
           </Dialog>,
           document.body
         )}
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
