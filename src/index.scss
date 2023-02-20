@@ -1,13 +1,13 @@
-@use "./utils/variables";
+// @use "./utils/variables";
 
 * {
     margin: 0;
     box-sizing: border-box;
-    color: white;
+    // color: white;
     // font-family: ;
 }
 
 
-body {
-    background-color: variables.$secondary;
-}
+// body {
+//     background-color: variables.$secondary;
+// }

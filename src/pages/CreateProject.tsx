@@ -1,9 +1,8 @@
 import React from 'react'
 // import '../features/projects/styles/CreateProject.scss'
 import Input from '../features/projects/components/Input'
-import Button from '../components/Button'
 import { Controller, useForm } from 'react-hook-form';
-import { Card, TextField, Typography } from '@mui/material';
+import { Button, Card, TextField, Typography } from '@mui/material';
 import { Box, Container, Stack } from '@mui/system';
 
 export default function CreateProject() {
@@ -21,7 +20,7 @@ export default function CreateProject() {
 
 
     // </Box>
-    <Box width="100vw" display='flex' justifyContent='center' pt={5}>
+    <Box width="100vw" display='flex' justifyContent='center' pt={5} component='form'>
       <Stack borderRadius={3} maxWidth='sm' direction='column' bgcolor='white' alignItems='center' gap={2} p={3} >
         <Typography variant='h3' color='black'>Create Project</Typography>
         <Box>
@@ -60,7 +59,7 @@ export default function CreateProject() {
           />
         </Box>
         <Box>
-          <Button variant="contained">Create Project</Button>
+          <Button variant='contained'>Create Project</Button>
         </Box>
       </Stack>
     </Box>
