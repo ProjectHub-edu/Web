@@ -12,10 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Badge } from '@mui/material';
+import { Badge, Link } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
+import { Link as RouterLink } from 'react-router-dom'
 
-const pages = ['Projects'];
+const pages = [{ name: 'Create Project', path: '/create-project' }];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -43,24 +44,28 @@ function ResponsiveAppBar() {
                 <Toolbar disableGutters>
 
                     {/* Desktop view */}
+
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        PH
-                    </Typography>
+                    <Link component={RouterLink} to='/' sx={{
+                        color: 'white'
+                    }}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                // textDecoration: 'none',
+                                // textDecorationLine: 'none',
+                            }}
+                        >
+                            PH
+                        </Typography>
+                    </Link>
 
                     {/* mobile view */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -93,9 +98,9 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                            {pages.map(({ name, path }) => (
+                                <MenuItem key={name} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -107,7 +112,7 @@ function ResponsiveAppBar() {
                         variant="h5"
                         noWrap
                         component="a"
-                        href=""
+                        // href=""
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -124,14 +129,15 @@ function ResponsiveAppBar() {
 
                     {/* desktop view */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                        {pages.map(({ name, path }) => (
+                            <Link key={path} component={RouterLink} to={path}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {name}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
 
