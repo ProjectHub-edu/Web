@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Project from "./pages/Project";
 import { AuthContext } from "./features/auth/context/AuthContext";
 import { User } from "./types/User";
+import CreateProject from "./pages/CreateProject";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -24,10 +25,20 @@ function App() {
     <AuthContext.Provider value={{ user, setUser }}>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects/:projectId" element={<Project />} />
-        <Route path="/profile/:userId" element={<Profile />} />
-        <Route path="*" element={<NotFound />} />
+        {/* Home Page */}
+        <Route path='/' element={<Home />} />
+
+        {/* Project Page */}
+        <Route path='/projects/:projectId' element={<Project />} />
+
+        {/* Project Page */}
+        <Route path='/create-project' element={<CreateProject />} />
+
+        {/* Profile Page */}
+        <Route path='/profile/:userId' element={<Profile />} />
+
+        {/* Not Found Page */}
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
       {isOpen &&
