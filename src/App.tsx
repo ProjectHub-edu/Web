@@ -14,7 +14,7 @@ import { User } from "./types/User";
 import CreateProject from "./pages/CreateProject";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState< User | null>(null);
 
   const closeModal = () => {
@@ -41,6 +41,8 @@ function App() {
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
+
+      {/* Login Modal */}
       {isOpen &&
         createPortal(
           <Dialog open={isOpen} onClose={closeModal}>
