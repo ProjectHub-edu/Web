@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Project } from "../../../types/User";
+import AvailableRoles from "./AvailableRoles";
 
 interface ProjectCardProps {
   project: Partial<Project>;
@@ -60,29 +61,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </Box>
       <CardContent>
         <Typography variant="h6">AvailableRoles</Typography>
-        <Box
-          sx={{
-            marginTop: "10px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-          }}
-        >
-          {project.availableRoles?.map((role) => (
-            <Typography
-              key={role}
-              variant="body2"
-              sx={{
-                backgroundColor: "#2C294D",
-                color: "white",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              {role}
-            </Typography>
-          ))}
-        </Box>
+        <AvailableRoles availableRoles={project.availableRoles ?? []} />
       </CardContent>
       <CardActions sx={{ justifyContent: "center" }}>
         <Link to={`/projects/${project.id}`} style={{ textDecoration: "none" }}>
