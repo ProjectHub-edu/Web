@@ -17,7 +17,6 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  console.log(project);
 
   return (
     <Card

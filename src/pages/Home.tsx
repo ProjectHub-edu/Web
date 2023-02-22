@@ -1,7 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import ProjectCard from "../features/projects/components/ProjectCard";
-import Search from "../features/projects/components/Search";
+import { ProjectCard, Search as ProjectSearch } from "../features/projects";
 import { Project } from "../types/User";
 
 const projects: Partial<Project>[] = [
@@ -80,7 +79,7 @@ export default function Home() {
       }}
     >
       <Container maxWidth="xl">
-        <Search value={search} onChange={handleChange} />
+        <ProjectSearch value={search} onChange={handleChange} />
         <Box
           sx={{
             width: "100%",
