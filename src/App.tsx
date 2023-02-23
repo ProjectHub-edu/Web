@@ -12,10 +12,11 @@ import Project from "./pages/Project";
 import { AuthContext } from "./features/auth/context/AuthContext";
 import { User } from "./types/User";
 import CreateProject from "./pages/CreateProject";
+import "./main.css"
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState< User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -31,7 +32,7 @@ function App() {
         {/* Project Page */}
         <Route path='/projects/:projectId' element={<Project />} />
 
-        {/* Project Page */}
+        {/* Create Project Page */}
         <Route path='/create-project' element={<CreateProject />} />
 
         {/* Profile Page */}
