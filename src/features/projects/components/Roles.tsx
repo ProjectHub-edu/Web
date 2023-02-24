@@ -14,7 +14,8 @@ export default function Roles() {
       px={2}
       py={1}
       borderRadius={5}
-      m={2}>
+      m={2}
+      >
       <Typography
         variant="h3"
         fontWeight={400}

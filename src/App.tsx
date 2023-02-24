@@ -41,7 +41,7 @@ function App() {
         {/* Not Found Page */}
         <Route path='*' element={<NotFound />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
 
       {/* Login Modal */}
       {isOpen &&
