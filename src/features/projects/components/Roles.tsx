@@ -2,8 +2,10 @@ import { faPlusCircle, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Stack, Typography } from "@mui/material";
 import React from "react";
-
-export default function Roles() {
+interface IRoles {
+  handleRequest: (role: string) => void;
+}
+export default function Roles({handleRequest}: IRoles) {
   return (
     <Stack
       direction={"column"}
@@ -34,6 +36,7 @@ export default function Roles() {
         minWidth={"300px"}
         maxWidth={"350px"}>
         <Button
+          onClick={() => handleRequest('role')}
           sx={{
             // display: 'flex',
             // justifyContent: 'flex-start',

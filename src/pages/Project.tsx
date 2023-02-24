@@ -10,7 +10,7 @@ import Roles from "../features/projects/components/Roles";
 import { Button } from "@mui/joy";
 
 export default function Project() {
-  const handleRequest = () => {
+  const handleRequest = (role: string) => {
     alert("requested");
   };
 
@@ -89,7 +89,7 @@ export default function Project() {
           </Typography>
         </Stack>
         {/* roles container */}
-        <Roles />
+        <Roles handleRequest={handleRequest} />
       </Stack>
     </Stack>
   );
