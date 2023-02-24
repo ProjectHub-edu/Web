@@ -5,38 +5,32 @@ import React from "react";
 import { Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowAltCircleLeft,
-  faArrowLeft,
-  faArrowLeftLong,
-  faArrowUpRightFromSquare,
-  faCircle,
-  faLeftLong,
-  faLongArrowLeft,
-  faSquareCaretLeft,
-  faUser,
-  faUserCircle,
-  faUsersCog,
-} from "@fortawesome/free-solid-svg-icons";
+import { faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Roles from "../features/projects/components/Roles";
 import { Button } from "@mui/joy";
 
 export default function Project() {
+  const handleRequest = () => {
+    alert("requested");
+  };
+
+  const handleBack = () => {
+    window.history.back();
+  };
   return (
     <Stack
       direction={"column"}
       color="white"
       px={10}
       // alignItems={"flex-start"}
-      
-      >
-      <Button>
+    >
+      <Button onClick={handleBack}>
         <FontAwesomeIcon
           icon={faLongArrowLeft}
           size={"2x"}
           style={{
             margin: "1em 0",
-            marginRight: '100%'
+            marginRight: "100%",
           }}
         />
       </Button>
