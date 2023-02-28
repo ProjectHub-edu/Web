@@ -8,15 +8,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Roles from "../features/projects/components/Roles";
 import { Button } from "@mui/joy";
+import { useParams } from "react-router";
+import useProject from "../features/projects/hooks/useProject";
 
 export default function Project() {
+  const { projectId } = useParams();
+  // TODO handle errors
+  const [data, pending] = useProject(projectId as string);
   const handleRequest = (role: string) => {
     alert("requested");
   };
 
+  console.log(data)
+
   const handleBack = () => {
     window.history.back();
   };
+
   return (
     <Stack
       direction={"column"}
