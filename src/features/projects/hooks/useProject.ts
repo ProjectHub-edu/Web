@@ -31,7 +31,10 @@ export default function useProject(projectId: string) {
       },
     })
       .then((response) => response.json())
-      .then((result) => setProject(result));
+      .then((result) => {
+        setProject(result);
+        setPending(false);
+      });
   }, []);
 
   return [project, pending] as [IProject | null, boolean];

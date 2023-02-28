@@ -2,7 +2,7 @@ import { Box, Stack } from "@mui/system";
 import img from "../features/projects/assets/img_placeholder.png";
 import profileIcon from "../features/projects/assets/profile.webp";
 import React from "react";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -19,11 +19,17 @@ export default function Project() {
     alert("requested");
   };
 
-  console.log(data)
-
   const handleBack = () => {
     window.history.back();
   };
+
+  if (pending)
+    return (
+      <CircularProgress
+        // color="secondary"
+        size={"5em"}
+      />
+    );
 
   return (
     <Stack
