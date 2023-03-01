@@ -1,13 +1,11 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { login } from "../api/auth";
-import "react-toastify/dist/ReactToastify.css";
-
 interface ILoginFormInput {
   email: string;
   password: string;
@@ -49,10 +47,8 @@ function LoginForm() {
         }
       )
       .then((user) => {
-        setTimeout(() => {
-          localStorage.setItem("user", JSON.stringify(user));
-          setUser(user);
-        }, 3000);
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
       });
   };
 
@@ -81,7 +77,7 @@ function LoginForm() {
           type="password"
           {...register("password", {
             required: true,
-            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+            // pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
           })}
           error={errors.password ? true : false}
           helperText="Must be at least 6 characters(1 uppercase, 1 lowercase, 1 number)"
@@ -106,7 +102,6 @@ function LoginForm() {
         </Button>
         {/* TODO: Google Auth */}
       </Box>
-      <ToastContainer />
     </form>
   );
 }

@@ -12,40 +12,46 @@ import Project from "./pages/Project";
 import { AuthContext } from "./features/auth/context/AuthContext";
 import { User } from "./types/User";
 import CreateProject from "./pages/CreateProject";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [user, setUser] = useState< User | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
     }
-  }, [])
+  }, []);
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
+  const openAuthModal = () => {
+    setIsOpen(true);
+  };
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <Navbar />
+      <Navbar openAuthModal={openAuthModal} />
       <Routes>
         {/* Home Page */}
-        <Route path='/' element={<Home />} />
+        <Route path="/" element={<Home />} />
 
         {/* Project Page */}
-        <Route path='/projects/:projectId' element={<Project />} />
+        <Route path="/projects/:projectId" element={<Project />} />
 
         {/* Project Page */}
-        <Route path='/create-project' element={<CreateProject />} />
+        <Route path="/create-project" element={<CreateProject />} />
 
         {/* Profile Page */}
-        <Route path='/profile/:userId' element={<Profile />} />
+        <Route path="/profile/:userId" element={<Profile />} />
 
         {/* Not Found Page */}
-        <Route path='*' element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
 
@@ -57,6 +63,7 @@ function App() {
           </Dialog>,
           document.body
         )}
+      <ToastContainer />
     </AuthContext.Provider>
   );
 }

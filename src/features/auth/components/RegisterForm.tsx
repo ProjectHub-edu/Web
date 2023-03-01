@@ -18,6 +18,7 @@ function RegisterForm() {
   const {
     register,
     formState: { errors },
+    getValues,
     handleSubmit,
   } = useForm<IRegisterFormInput>({
     defaultValues: {
@@ -55,10 +56,8 @@ function RegisterForm() {
         }
       )
       .then((user) => {
-        setTimeout(() => {
-          localStorage.setItem("user", JSON.stringify(user));
-          setUser(user);
-        }, 3000);
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
       });
   };
 
@@ -104,8 +103,8 @@ function RegisterForm() {
           label="Password Repeat"
           type="password"
           {...register("passwordRepeat", { required: true })}
-          error={errors.passwordRepeat ? true : false}
-          helperText="Must be at least 8 characters"
+          error={getValues("password") !== getValues("passwordRepeat")}
+          helperText="Must be the same as password"
           sx={{ width: "100%" }}
         />
         <Button
@@ -126,7 +125,6 @@ function RegisterForm() {
           Register
         </Button>
         {/* TODO: Google Auth */}
-        <ToastContainer />
       </Box>
     </form>
   );
