@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Route, Routes } from "react-router";
 import AuthForm from "./features/auth/components/AuthForm";
@@ -14,8 +14,15 @@ import { User } from "./types/User";
 import CreateProject from "./pages/CreateProject";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [user, setUser] = useState< User | null>(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, [])
 
   const closeModal = () => {
     setIsOpen(false);

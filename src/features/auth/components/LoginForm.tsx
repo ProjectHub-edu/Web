@@ -4,8 +4,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { AuthContext } from "../context/AuthContext";
-import { useContext, useState } from "react";
-import { User } from "../../../types/User";
+import { useContext } from "react";
+import { login } from "../api/auth";
 import "react-toastify/dist/ReactToastify.css";
 
 interface ILoginFormInput {
@@ -26,25 +26,12 @@ function LoginForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
-    const userPromise = new Promise<User>((resolve, reject) => {
-      setTimeout(() => {
-        // resolve({
-        //   id: 1,
-        //   username: "John Doe",
-        //   email: data.email,
-        //   avatar: "https://i.pravatar.cc/150?img=1",
-        //   description:
-        //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-        //   projects: [],
-        // });
-        reject(new Error());
-      }, 2000);
-    });
+  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
+    const loginData = login(data.email, data.password);
 
     toast
       .promise(
-        userPromise,
+        loginData,
         {
           pending: "Logging in...",
           success: "Logged in successfully",
@@ -63,6 +50,7 @@ function LoginForm() {
       )
       .then((user) => {
         setTimeout(() => {
+          localStorage.setItem("user", JSON.stringify(user));
           setUser(user);
         }, 3000);
       });
@@ -93,10 +81,10 @@ function LoginForm() {
           type="password"
           {...register("password", {
             required: true,
-            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
           })}
           error={errors.password ? true : false}
-          helperText="Must be at least 8 characters(1 uppercase, 1 lowercase, 1 number)"
+          helperText="Must be at least 6 characters(1 uppercase, 1 lowercase, 1 number)"
           sx={{ width: "100%" }}
         />
         <Button
