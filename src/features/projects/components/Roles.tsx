@@ -1,11 +1,14 @@
 import { faPlusCircle, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Stack, Typography } from "@mui/material";
+import { IRole } from "../hooks/useProject";
 import React from "react";
-interface IRoles {
+import profileImg from "../assets/profile.webp";
+interface RolesInterface {
   handleRequest: (role: string) => void;
+  roles: IRole[] | null;
 }
-export default function Roles({handleRequest}: IRoles) {
+export default function Roles({ handleRequest, roles }: RolesInterface) {
   return (
     <Stack
       direction={"column"}
@@ -16,127 +19,68 @@ export default function Roles({handleRequest}: IRoles) {
       px={2}
       py={1}
       borderRadius={5}
-      m={2}
-      >
+      m={2}>
       <Typography
         variant="h3"
         fontWeight={400}
         color="black">
         Roles
       </Typography>
-      <Stack
-        direction={"row"}
-        justifyContent="space-between"
-        alignItems={"center"}
-        bgcolor={"#6B4FA9"}
-        borderRadius={20}
-        px={3}
-        py={0.5}
-        gap={2}
-        minWidth={"300px"}
-        maxWidth={"350px"}>
-        <Button
-          onClick={() => handleRequest('role')}
-          sx={{
-            // display: 'flex',
-            // justifyContent: 'flex-start',
-            p: 0,
-            color: "white",
-          }}>
-          <FontAwesomeIcon
-            icon={faPlusCircle}
-            size={"2x"}
-          />
-        </Button>
-        <Stack
-          direction={"column"}
-          justifyContent="center"
-          alignItems={"center"}
-          flexGrow={1}>
-          <Typography variant="h5">Front End</Typography>
-          <Typography
-            variant="caption"
-            textAlign={"center"}>
-            JavaScript, Figma, Git
-          </Typography>
-        </Stack>
-      </Stack>
-
-      <Stack
-        direction={"row"}
-        justifyContent="space-between"
-        alignItems={"center"}
-        bgcolor={"#6B4FA9"}
-        borderRadius={20}
-        px={3}
-        py={0.5}
-        gap={2}
-        minWidth={"300px"}
-        maxWidth={"350px"}>
-        <Button
-          sx={{
-            display: "flex",
-            // width: 'fit-content',
-            // justifyContent: 'flex-start',
-            p: 0,
-            color: "white",
-          }}>
-          <FontAwesomeIcon
-            icon={faUserCircle}
-            size="2x"
-          />
-        </Button>
-        <Stack
-          direction={"column"}
-          justifyContent="center"
-          alignItems={"center"}
-          flexGrow={1}>
-          <Typography variant="h5">Front End</Typography>
-          <Typography
-            variant="caption"
-            textAlign={"center"}>
-            JavaScript, Figma, Git
-          </Typography>
-        </Stack>
-      </Stack>
-
-      <Stack
-        direction={"row"}
-        justifyContent="space-between"
-        alignItems={"center"}
-        bgcolor={"#6B4FA9"}
-        borderRadius={20}
-        px={3}
-        py={0.5}
-        gap={2}
-        minWidth={"300px"}
-        maxWidth={"350px"}>
-        <Button
-          sx={{
-            display: "flex",
-            // width: 'fit-content',
-            // justifyContent: 'flex-start',
-            p: 0,
-            color: "white",
-          }}>
-          <FontAwesomeIcon
-            icon={faUserCircle}
-            size="2x"
-          />
-        </Button>
-        <Stack
-          direction={"column"}
-          justifyContent="center"
-          alignItems={"center"}
-          flexGrow={1}>
-          <Typography variant="h5">Front End</Typography>
-          <Typography
-            variant="caption"
-            textAlign={"center"}>
-            JavaScript, Figma, Git
-          </Typography>
-        </Stack>
-      </Stack>
+      {roles &&
+        roles.map((role, index) => (
+          <Stack
+            key={index}
+            direction={"row"}
+            justifyContent="space-between"
+            alignItems={"center"}
+            bgcolor={"#6B4FA9"}
+            borderRadius={5}
+            px={3}
+            py={2}
+            gap={2}
+            minWidth={"300px"}
+            maxWidth={"350px"}>
+            {!role.user && (
+              <Button
+                onClick={() => handleRequest("role")}
+                sx={{
+                  // display: 'flex',
+                  // justifyContent: 'flex-start',
+                  p: 0,
+                  color: "white",
+                }}>
+                <FontAwesomeIcon
+                  icon={faPlusCircle}
+                  size={"3x"}
+                />
+              </Button>
+            )}
+            {role.user && (
+              <img
+              aria-label={`icon of user ${role.user.username}`}
+                src={role.user.avatarUrl || profileImg}
+                height={32}
+                style={{
+                  borderRadius: "100%",
+                }}
+              />
+            )}
+            <Stack
+              direction={"column"}
+              justifyContent="center"
+              alignItems={"center"}
+              flexGrow={1}>
+              <Typography variant="h6">{role.roleName}</Typography>
+              {role.description && (
+                <Typography
+                  variant="caption"
+                  textAlign={"center"}>
+                  {role.description}
+                </Typography>
+              )}
+            </Stack>
+          </Stack>
+        ))}
     </Stack>
   );
 }

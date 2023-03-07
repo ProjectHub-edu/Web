@@ -9,12 +9,15 @@ import { faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Roles from "../features/projects/components/Roles";
 import { Button } from "@mui/joy";
 import { useParams } from "react-router";
-import useProject from "../features/projects/hooks/useProject";
+import useProject, { IProject } from "../features/projects/hooks/useProject";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Project() {
   const { projectId } = useParams();
+  const postQuery = useProject(projectId as string);
   // TODO handle errors
-  const [data, pending] = useProject(projectId as string);
+
   const handleRequest = (role: string) => {
     alert("requested");
   };
@@ -23,12 +26,21 @@ export default function Project() {
     window.history.back();
   };
 
-  if (pending)
+  console.log(postQuery.data);
+
+  if (postQuery.isLoading)
     return (
-      <CircularProgress
-        // color="secondary"
-        size={"5em"}
-      />
+      <Box
+        width={"100vw"}
+        height={"70vh"}
+        alignItems="center"
+        justifyContent="center"
+        display={"flex"}>
+        <CircularProgress
+          // color="secondary"
+          size={"5em"}
+        />
+      </Box>
     );
 
   return (
@@ -60,7 +72,7 @@ export default function Project() {
             direction={"row"}
             gap={3}>
             <img
-              src={img}
+              src={postQuery.data?.projectImgUrl || img}
               alt=""
               height={400}
             />
@@ -71,39 +83,24 @@ export default function Project() {
               <Typography
                 variant="h2"
                 fontWeight={400}>
-                Project Hub
+                {postQuery.data?.title}
               </Typography>
               {/* <Typography variant="body2">3 days ago</Typography> */}
-              <Typography variant="h5">Status: In Progress</Typography>
+              <Typography variant="h5">Status: {postQuery.data?.status}</Typography>
             </Stack>
           </Stack>
           <Typography
             py={2}
             variant="body1"
             maxWidth={"50vw"}>
-            Restream is looking for a Frontend Engineer to join us to solve complex challenges and build world-class
-            products. In this role, you will build new features, develop the user interface of our product, and improve
-            the reliability of our systems as we scale. You will collaborate with a team of Engineers to drive processes
-            and enhance user-facing features. You understand the importance of simplicity and reliability, and you
-            calculate the impact of every decision on each. We believe in small teams where each member contributes
-            significant value. Responsibilities Develop and maintain features in Restream web services Design and
-            implement the UI and business logic necessary to support new and existing features Partner with the UI
-            designer to build great and user-friendly UI/UX Give and receive code review feedback with the team Maintain
-            a pulse on emerging technologies and discover hidden opportunities in our environment Requirements A
-            scrappy, entrepreneurial attitude that gets high-quality projects done quickly Solid knowledge of
-            JavaScript, TypeScript, and newer specifications of ECMAScript (Experience with other programming languages
-            is a plus) Expert in React and its major state management systems. Experience with other front-end
-            frameworks is a plus Experience with CSS preprocessors like LESS or SASS Basic backend skills: Node.JS,
-            building REST APIs, working with relational or NoSQL databases Comfortable working with TypeScript, MobX,
-            AWS, Linux, Docker, Kubernetes, continuous deployment workflow Self-directed, analytical, and work well in a
-            team environment Restream is the #1 solution for creating professional live videos and streaming them to all
-            social networks at once. Millions of people around the world use Restream to reach, engage, and monetize
-            their audiences. We’re a small and diverse group of dreamers who make technology work for the world. We
-            believe that a small but highly driven and focused team can make a lasting impact in any area.
+            {postQuery.data?.description}
           </Typography>
         </Stack>
         {/* roles container */}
-        <Roles handleRequest={handleRequest} />
+        <Roles
+          roles={postQuery.data!.roles}
+          handleRequest={handleRequest}
+        />
       </Stack>
     </Stack>
   );
