@@ -1,22 +1,17 @@
 import { Box, Stack } from "@mui/system";
 import img from "../features/projects/assets/img_placeholder.png";
-import profileIcon from "../features/projects/assets/profile.webp";
-import React from "react";
 import { CircularProgress, Typography } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Roles from "../features/projects/components/Roles";
 import { Button } from "@mui/joy";
 import { useParams } from "react-router";
-import useProject, { IProject } from "../features/projects/hooks/useProject";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useProject from "../features/projects/hooks/useProject";
 
 export default function Project() {
   const { projectId } = useParams();
-  const postQuery = useProject(projectId as string);
   // TODO handle errors
+  const postQuery = useProject(projectId as string);
 
   const handleRequest = (role: string) => {
     alert("requested");
@@ -25,8 +20,6 @@ export default function Project() {
   const handleBack = () => {
     window.history.back();
   };
-
-  console.log(postQuery.data);
 
   if (postQuery.isLoading)
     return (

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { BASE_URL } from "../../../config/default.json";
+// import { useEffect, useState } from "react";
+// import { BASE_URL } from "../../../config/default.json";
 
 export interface IProject {
   id: number;
