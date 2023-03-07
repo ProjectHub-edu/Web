@@ -1,5 +1,6 @@
-type Project = {
+export type Project = {
     id: number;
+    img: string;
     title: string;
     description: string;
     owner: User;
@@ -9,6 +10,7 @@ type Project = {
     endDate: string;
     createdAt: string;
     updatedAt: string;
+    availableRoles: string[];
 }
 
 export type User = {
@@ -16,6 +18,6 @@ export type User = {
     avatar: string;
     username: string;
     email: string;
-    description: string;
+    description?: string;
     projects: Project[];
 }
