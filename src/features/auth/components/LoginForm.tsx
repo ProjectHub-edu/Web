@@ -5,11 +5,13 @@ import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
-import { login } from "../api/auth";
-interface ILoginFormInput {
+import { login } from "../services/auth";
+import { useMutation } from "react-query";
+interface ILoginForm {
   email: string;
   password: string;
 }
+
 
 function LoginForm() {
   const { setUser } = useContext(AuthContext);
@@ -17,19 +19,21 @@ function LoginForm() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<ILoginFormInput>({
+  } = useForm<ILoginForm>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
-    const loginData = login(data.email, data.password);
+  const loginMutation = useMutation(({ email, password }: ILoginForm) =>
+    login(email, password)
+  );
 
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     toast
       .promise(
-        loginData,
+        loginMutation.mutateAsync(data),
         {
           pending: "Logging in...",
           success: "Logged in successfully",
@@ -47,7 +51,6 @@ function LoginForm() {
         }
       )
       .then((user) => {
-        localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
       });
   };

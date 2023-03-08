@@ -10,21 +10,14 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Project from "./pages/Project";
 import { AuthContext } from "./features/auth/context/AuthContext";
-import { User } from "./types/User";
 import CreateProject from "./pages/CreateProject";
 import { ToastContainer } from "react-toastify";
+import { usePersistentUser } from './features/auth/hooks/usePersistentUser';
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-  }, []);
+  const { user, setUser } = usePersistentUser()
 
   const closeModal = () => {
     setIsOpen(false);

@@ -2,11 +2,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-import { toast, ToastContainer } from "react-toastify";
-import { register as registerApi } from "../api/auth";
+import { toast } from "react-toastify";
+import { register as registerApi } from "../services/auth";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-interface IRegisterFormInput {
+import { useMutation } from 'react-query';
+interface IRegisterForm {
   username: string;
   email: string;
   password: string;
@@ -20,7 +21,7 @@ function RegisterForm() {
     formState: { errors },
     getValues,
     handleSubmit,
-  } = useForm<IRegisterFormInput>({
+  } = useForm<IRegisterForm>({
     defaultValues: {
       username: "",
       email: "",
@@ -29,19 +30,18 @@ function RegisterForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<IRegisterFormInput> = (data) => {
-    const registerPromise = registerApi(
-      data.email,
-      data.username,
-      data.password
-    );
+   const registerMutation = useMutation(
+     ({ username, email, password }: IRegisterForm) =>
+       registerApi(username, email, password)
+   );
 
+  const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
     toast
       .promise(
-        registerPromise,
+        registerMutation.mutateAsync(data),
         {
-          pending: "Logging in...",
-          success: "Logged in successfully",
+          pending: "Register....",
+          success: "Registered successfully",
           error: "Wrong credentials",
         },
         {
@@ -56,7 +56,6 @@ function RegisterForm() {
         }
       )
       .then((user) => {
-        localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
       });
   };
