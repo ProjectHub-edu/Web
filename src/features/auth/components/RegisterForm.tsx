@@ -2,8 +2,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-
-interface IRegisterFormInput {
+import { toast } from "react-toastify";
+import { register as registerApi } from "../services/auth";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useMutation } from 'react-query';
+interface IRegisterForm {
   username: string;
   email: string;
   password: string;
@@ -11,11 +15,13 @@ interface IRegisterFormInput {
 }
 
 function RegisterForm() {
+  const { setUser } = useContext(AuthContext);
   const {
     register,
     formState: { errors },
+    getValues,
     handleSubmit,
-  } = useForm<IRegisterFormInput>({
+  } = useForm<IRegisterForm>({
     defaultValues: {
       username: "",
       email: "",
@@ -24,8 +30,34 @@ function RegisterForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<IRegisterFormInput> = (data) => {
-    console.log(data);
+   const registerMutation = useMutation(
+     ({ username, email, password }: IRegisterForm) =>
+       registerApi(username, email, password)
+   );
+
+  const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
+    toast
+      .promise(
+        registerMutation.mutateAsync(data),
+        {
+          pending: "Register....",
+          success: "Registered successfully",
+          error: "Wrong credentials",
+        },
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      )
+      .then((user) => {
+        setUser(user);
+      });
   };
 
   return (
@@ -70,8 +102,8 @@ function RegisterForm() {
           label="Password Repeat"
           type="password"
           {...register("passwordRepeat", { required: true })}
-          error={errors.passwordRepeat ? true : false}
-          helperText="Must be at least 8 characters"
+          error={getValues("password") !== getValues("passwordRepeat")}
+          helperText="Must be the same as password"
           sx={{ width: "100%" }}
         />
         <Button

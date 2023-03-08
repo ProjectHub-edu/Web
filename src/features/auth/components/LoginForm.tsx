@@ -1,17 +1,17 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { AuthContext } from "../context/AuthContext";
-import { useContext, useState } from "react";
-import { User } from "../../../types/User";
-import "react-toastify/dist/ReactToastify.css";
-
-interface ILoginFormInput {
+import { useContext } from "react";
+import { login } from "../services/auth";
+import { useMutation } from "react-query";
+interface ILoginForm {
   email: string;
   password: string;
 }
+
 
 function LoginForm() {
   const { setUser } = useContext(AuthContext);
@@ -19,32 +19,21 @@ function LoginForm() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<ILoginFormInput>({
+  } = useForm<ILoginForm>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
-    const userPromise = new Promise<User>((resolve, reject) => {
-      setTimeout(() => {
-        // resolve({
-        //   id: 1,
-        //   username: "John Doe",
-        //   email: data.email,
-        //   avatar: "https://i.pravatar.cc/150?img=1",
-        //   description:
-        //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-        //   projects: [],
-        // });
-        reject(new Error());
-      }, 2000);
-    });
+  const loginMutation = useMutation(({ email, password }: ILoginForm) =>
+    login(email, password)
+  );
 
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     toast
       .promise(
-        userPromise,
+        loginMutation.mutateAsync(data),
         {
           pending: "Logging in...",
           success: "Logged in successfully",
@@ -62,9 +51,7 @@ function LoginForm() {
         }
       )
       .then((user) => {
-        setTimeout(() => {
-          setUser(user);
-        }, 3000);
+        setUser(user);
       });
   };
 
@@ -93,10 +80,10 @@ function LoginForm() {
           type="password"
           {...register("password", {
             required: true,
-            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            // pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
           })}
           error={errors.password ? true : false}
-          helperText="Must be at least 8 characters(1 uppercase, 1 lowercase, 1 number)"
+          helperText="Must be at least 6 characters(1 uppercase, 1 lowercase, 1 number)"
           sx={{ width: "100%" }}
         />
         <Button
@@ -118,7 +105,6 @@ function LoginForm() {
         </Button>
         {/* TODO: Google Auth */}
       </Box>
-      <ToastContainer />
     </form>
   );
 }

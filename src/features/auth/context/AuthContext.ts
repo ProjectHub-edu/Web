@@ -3,7 +3,7 @@ import { User } from "../../../types/User";
 
 export interface AuthContextProps {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
